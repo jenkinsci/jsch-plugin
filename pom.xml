@@ -8,7 +8,7 @@
 
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>jsch</artifactId>
-    <version>0.1.43-SNAPSHOT</version>
+    <version>0.1.42-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
@@ -19,8 +19,8 @@
         <connection>scm:git:git@github.com:jenkinsci/jsch-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/jsch-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/jsch-plugin/</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <licenses>
         <license>
@@ -62,6 +62,17 @@
             <version>0.1.42</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
 
