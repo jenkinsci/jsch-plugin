@@ -6,14 +6,16 @@
         <version>1.477</version>
     </parent>
 
-    <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>jsch</artifactId>
-    <version>0.1.43-SNAPSHOT</version>
+    <version>0.1.52.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/JSch+plugin</url>
-    <description>Jenkins plugin that brings the JSch library as a plugin dependency, does not have any functionality by itself.</description>
+    <description>
+        Jenkins plugin that brings the JSch library as a plugin dependency, and provides
+        an SSHAuthenticatorFactory for using JSch with the ssh-credentials plugin.
+    </description>
 
     <scm>
         <connection>scm:git:git@github.com:jenkinsci/jsch-plugin.git</connection>
@@ -34,10 +36,18 @@
             <id>zregvart</id>
             <name>Zoran Regvart</name>
         </developer>
+        <developer>
+            <id>bpedman</id>
+            <name>Brandon Pedersen</name>
+        </developer>
     </developers>
 
     <properties>
         <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
+
+        <deps.apache-sshd.version>0.12.0</deps.apache-sshd.version>
+        <deps.jsch.version>0.1.52</deps.jsch.version>
+        <deps.ssh-credentials-plugin.version>2.0-SNAPSHOT</deps.ssh-credentials-plugin.version>
     </properties>
 
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
@@ -56,10 +66,26 @@
     </pluginRepositories>
 
     <dependencies>
+        <!-- plugin dependencies -->
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.42</version>
+            <version>${deps.jsch.version}</version>
+        </dependency>
+
+        <!-- jenkins dependencies -->
+        <dependency>
+            <groupId>org.jenkins-ci.plugins</groupId>
+            <artifactId>ssh-credentials</artifactId>
+            <version>${deps.ssh-credentials-plugin.version}</version>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>org.apache.sshd</groupId>
+            <artifactId>sshd-core</artifactId>
+            <version>${deps.apache-sshd.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
