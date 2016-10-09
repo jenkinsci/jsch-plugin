@@ -7,7 +7,7 @@
     </parent>
 
     <artifactId>jsch</artifactId>
-    <version>0.1.52.0-SNAPSHOT</version>
+    <version>0.1.54.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
@@ -46,8 +46,8 @@
         <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
 
         <deps.apache-sshd.version>0.12.0</deps.apache-sshd.version>
-        <deps.jsch.version>0.1.52</deps.jsch.version>
-        <deps.ssh-credentials-plugin.version>1.13-SNAPSHOT</deps.ssh-credentials-plugin.version>
+        <deps.jsch.version>0.1.54</deps.jsch.version>
+        <deps.ssh-credentials-plugin.version>1.12</deps.ssh-credentials-plugin.version>
     </properties>
 
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
