@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  * @author stephenc
- * @since 25/10/2012 14:49
+ * @since 0.1.54.0
  */
 public class JSchSSHPublicKeyAuthenticator extends SSHAuthenticator<JSchConnector, SSHUserPrivateKey> {
 

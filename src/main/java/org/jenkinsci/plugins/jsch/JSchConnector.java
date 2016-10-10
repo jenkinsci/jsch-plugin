@@ -6,7 +6,7 @@ import com.jcraft.jsch.Session;
 
 /**
  * @author stephenc
- * @since 25/10/2012 15:14
+ * @since 0.1.54.0
  */
 public class JSchConnector {
     private final JSch jsch;

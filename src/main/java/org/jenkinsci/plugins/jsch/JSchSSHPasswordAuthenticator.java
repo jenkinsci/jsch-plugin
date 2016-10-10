@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  * @author stephenc
- * @since 25/10/2012 13:57
+ * @since 0.1.54.0
  */
 public class JSchSSHPasswordAuthenticator extends SSHAuthenticator<JSchConnector, StandardUsernamePasswordCredentials> {
 
