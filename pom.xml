@@ -33,6 +33,10 @@
 
     <developers>
         <developer>
+            <id>ljader</id>
+            <name>Lukasz Jader</name>
+        </developer>
+        <developer>
             <id>zregvart</id>
             <name>Zoran Regvart</name>
         </developer>
