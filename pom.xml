@@ -11,7 +11,7 @@
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
-    <url>http://wiki.jenkins.io/display/JENKINS/JSch+plugin</url>
+    <url>https://wiki.jenkins.io/display/JENKINS/JSch+plugin</url>
     <description>
         Jenkins plugin that brings the JSch library as a plugin dependency, and provides
         an SSHAuthenticatorFactory for using JSch with the ssh-credentials plugin.
