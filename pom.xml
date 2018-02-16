@@ -44,6 +44,14 @@
             <id>bpedman</id>
             <name>Brandon Pedersen</name>
         </developer>
+        <developer>
+            <id>oleg_nenashev</id>
+            <name>Oleg Nenashev</name>
+        </developer>
+        <developer>
+            <id>dnusbaum</id>
+            <name>Devin Nusbaum</name>
+        </developer>
     </developers>
 
     <properties>
