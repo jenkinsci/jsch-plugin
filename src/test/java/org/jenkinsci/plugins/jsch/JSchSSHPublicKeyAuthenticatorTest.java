@@ -30,32 +30,28 @@ import com.cloudbees.plugins.credentials.CredentialsScope;
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.util.Secret;
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.UserAuth;
-import org.apache.sshd.server.auth.UserAuthPublicKey;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.server.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.apache.sshd.server.session.ServerSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import java.security.PublicKey;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class JSchSSHPublicKeyAuthenticatorTest {
 
+    private final KeyPairProvider keyPairProvider = new SimpleGeneratorHostKeyProvider();
     private JSchConnector connector;
     private SSHUserPrivateKey user;
 
@@ -177,13 +173,9 @@ public class JSchSSHPublicKeyAuthenticatorTest {
     public void testAuthenticate() throws Exception {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
-        sshd.setPublickeyAuthenticator(new PublickeyAuthenticator() {
-            public boolean authenticate(String username, PublicKey key, ServerSession session) {
-                return username.equals("foobar");
-            }
-        });
-        sshd.setUserAuthFactories(Arrays.<NamedFactory<UserAuth>>asList(new UserAuthPublicKey.Factory()));
+        sshd.setKeyPairProvider(keyPairProvider);
+        sshd.setPublickeyAuthenticator((username, key, session) -> username.equals("foobar"));
+        sshd.setUserAuthFactories(Collections.singletonList(new UserAuthPublicKeyFactory()));
         try {
             sshd.start();
             connector = new JSchConnector(user.getUsername(), "localhost", sshd.getPort());
@@ -210,13 +202,9 @@ public class JSchSSHPublicKeyAuthenticatorTest {
     public void testFactory() throws Exception {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
-        sshd.setPublickeyAuthenticator(new PublickeyAuthenticator() {
-            public boolean authenticate(String username, PublicKey key, ServerSession session) {
-                return username.equals("foobar");
-            }
-        });
-        sshd.setUserAuthFactories(Arrays.<NamedFactory<UserAuth>>asList(new UserAuthPublicKey.Factory()));
+        sshd.setKeyPairProvider(keyPairProvider);
+        sshd.setPublickeyAuthenticator((username, key, session) -> username.equals("foobar"));
+        sshd.setUserAuthFactories(Collections.singletonList(new UserAuthPublicKeyFactory()));
         try {
             sshd.start();
             connector = new JSchConnector(user.getUsername(), "localhost", sshd.getPort());
