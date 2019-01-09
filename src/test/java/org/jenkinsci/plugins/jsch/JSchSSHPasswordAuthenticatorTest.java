@@ -32,26 +32,22 @@ import com.jcraft.jsch.HostKeyRepository;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.UserInfo;
 import hudson.model.Items;
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.server.PasswordAuthenticator;
-import org.apache.sshd.server.UserAuth;
-import org.apache.sshd.server.auth.UserAuthPassword;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.server.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.apache.sshd.server.session.ServerSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class JSchSSHPasswordAuthenticatorTest {
 
@@ -100,12 +96,8 @@ public class JSchSSHPasswordAuthenticatorTest {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
-        sshd.setPasswordAuthenticator(new PasswordAuthenticator() {
-            public boolean authenticate(String username, String password, ServerSession session) {
-                return "foomanchu".equals(password);
-            }
-        });
-        sshd.setUserAuthFactories(Arrays.<NamedFactory<UserAuth>>asList(new UserAuthPassword.Factory()));
+        sshd.setPasswordAuthenticator((username, password, session) -> "foomanchu".equals(password));
+        sshd.setUserAuthFactories(Collections.singletonList(new UserAuthPasswordFactory()));
         try {
             sshd.start();
             connector = new JSchConnector(user.getUsername(),"localhost", sshd.getPort());
@@ -132,12 +124,8 @@ public class JSchSSHPasswordAuthenticatorTest {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
-        sshd.setPasswordAuthenticator(new PasswordAuthenticator() {
-            public boolean authenticate(String username, String password, ServerSession session) {
-                return "foomanchu".equals(password);
-            }
-        });
-        sshd.setUserAuthFactories(Arrays.<NamedFactory<UserAuth>>asList(new UserAuthPassword.Factory()));
+        sshd.setPasswordAuthenticator((username, password, session) -> "foomanchu".equals(password));
+        sshd.setUserAuthFactories(Collections.singletonList(new UserAuthPasswordFactory()));
         try {
             sshd.start();
             connector = new JSchConnector(user.getUsername(),"localhost", sshd.getPort());
