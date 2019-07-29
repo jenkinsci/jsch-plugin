@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>jsch</artifactId>
-    <version>${revision}${changelist}</version>
+    <version>0.1.55.1</version>
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
@@ -22,7 +22,7 @@
         <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-        <tag>${scmTag}</tag>
+        <tag>jsch-0.1.55.1</tag>
     </scm>
 
     <licenses>
