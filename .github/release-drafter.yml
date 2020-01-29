@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: jsch-$NEXT_MINOR_VERSION
