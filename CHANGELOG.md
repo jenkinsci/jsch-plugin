@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.1.55.2 and later
+
+Changelog moved to [GitHub Releases](https://github.com/jenkinsci/jsch-plugin/releases)
+
 ## Version 0.1.55.1 (July 29, 2019)
 
 -   Minor POM updates for clarity and consistency
