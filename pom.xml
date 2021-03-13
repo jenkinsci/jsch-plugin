@@ -58,6 +58,7 @@
     <properties>
         <revision>0.1.55.3</revision>
         <changelist>-SNAPSHOT</changelist>
+        
         <jenkins.version>2.282</jenkins.version>
         <java.level>8</java.level>
     </properties>
