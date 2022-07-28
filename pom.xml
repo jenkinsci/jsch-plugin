@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.0-beta-4</version>
+        <version>4.44</version>
         <relativePath />
     </parent>
 
@@ -12,16 +13,12 @@
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
-    <url>https://github.com/jenkinsci/jsch-plugin</url>
-    <description>
-        Jenkins plugin that brings the JSch library as a plugin dependency, and provides
-        an SSHAuthenticatorFactory for using JSch with the ssh-credentials plugin.
-    </description>
+    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
     <scm>
-        <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+        <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
+        <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+        <url>https://github.com/${gitHubRepo}</url>
         <tag>${scmTag}</tag>
     </scm>
 
@@ -58,8 +55,8 @@
     <properties>
         <revision>0.1.55.3</revision>
         <changelist>-SNAPSHOT</changelist>
-        <jenkins.version>2.190.1</jenkins.version>
-        <java.level>8</java.level>
+        <jenkins.version>2.319.1</jenkins.version>
+        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     </properties>
 
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
@@ -77,6 +74,18 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.jenkins.tools.bom</groupId>
+                <artifactId>bom-2.319.x</artifactId>
+                <version>1508.v4b_d09ff0e893</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- plugin dependencies -->
         <dependency>
@@ -87,21 +96,18 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>trilead-api</artifactId>
-            <version>1.0.5</version>
         </dependency>
 
         <!-- jenkins dependencies -->
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>ssh-credentials</artifactId>
-            <version>1.14</version>
         </dependency>
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>org.apache.sshd</groupId>
-            <artifactId>sshd-core</artifactId>
-            <version>2.1.0</version>
+            <groupId>io.jenkins.plugins.mina-sshd-api</groupId>
+            <artifactId>mina-sshd-api-core</artifactId>
             <scope>test</scope>
         </dependency>
 
