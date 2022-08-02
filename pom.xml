@@ -9,7 +9,8 @@
     </parent>
 
     <artifactId>jsch</artifactId>
-    <version>${revision}${changelist}</version>
+    <!-- TODO: Switch separator from '.' to '-' next time jsch dependency is updated. -->
+    <version>${revision}.${changelist}</version>
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
@@ -46,15 +47,11 @@
             <id>oleg_nenashev</id>
             <name>Oleg Nenashev</name>
         </developer>
-        <developer>
-            <id>dnusbaum</id>
-            <name>Devin Nusbaum</name>
-        </developer>
     </developers>
 
     <properties>
-        <revision>0.1.55.3</revision>
-        <changelist>-SNAPSHOT</changelist>
+        <revision>0.1.55</revision>
+        <changelist>999999-SNAPSHOT</changelist>
         <jenkins.version>2.319.1</jenkins.version>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     </properties>
@@ -91,7 +88,7 @@
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
