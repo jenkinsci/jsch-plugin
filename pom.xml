@@ -50,7 +50,7 @@
     </developers>
 
     <properties>
-        <revision>0.1.55</revision>
+        <revision>0.2.4</revision>
         <changelist>999999-SNAPSHOT</changelist>
         <jenkins.version>2.319.1</jenkins.version>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
@@ -86,7 +86,7 @@
     <dependencies>
         <!-- plugin dependencies -->
         <dependency>
-            <groupId>com.jcraft</groupId>
+            <groupId>com.github.mwiede</groupId>
             <artifactId>jsch</artifactId>
             <version>${revision}</version>
         </dependency>
