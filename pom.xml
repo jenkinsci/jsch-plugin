@@ -9,8 +9,7 @@
     </parent>
 
     <artifactId>jsch</artifactId>
-    <!-- TODO: Switch separator from '.' to '-' next time jsch dependency is updated. -->
-    <version>${revision}.${changelist}</version>
+    <version>${revision}-${changelist}</version>
     <packaging>hpi</packaging>
 
     <name>Jenkins JSch dependency plugin</name>
