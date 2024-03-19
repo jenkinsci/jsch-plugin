@@ -49,7 +49,7 @@
     </developers>
 
     <properties>
-        <revision>0.2.16</revision>
+        <revision>0.2.17</revision>
         <changelist>999999-SNAPSHOT</changelist>
         <jenkins.version>2.361.4</jenkins.version>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
