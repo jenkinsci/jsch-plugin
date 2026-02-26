@@ -35,39 +35,46 @@ import hudson.model.Items;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-public class JSchSSHPasswordAuthenticatorTest {
+@WithJenkins
+class JSchSSHPasswordAuthenticatorTest {
 
     private JSchConnector connector;
     private StandardUsernamePasswordCredentials user;
 
-    @Rule public JenkinsRule r = new JenkinsRule();
+    private JenkinsRule r;
 
-    @After
-    public void tearDown() throws Exception {
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        r = rule;
+        user = (StandardUsernamePasswordCredentials) Items.XSTREAM.fromXML(Items.XSTREAM.toXML(new BasicSSHUserPassword(CredentialsScope.SYSTEM, null, "foobar", "foomanchu", null)));
+    }
+
+    @AfterEach
+    void afterEach() {
         if (connector != null) {
             connector.close();
             connector = null;
         }
     }
 
-    // disabled as Apache MINA sshd does not provide easy mech for giving a Keyboard Interactive authenticator
-    // so this test relies on having a local sshd which is keyboard interactive only
-    public void dontTestKeyboardInteractive() throws Exception {
-
+    @Test
+    @Disabled("Apache MINA sshd does not provide easy mech for giving a Keyboard Interactive authenticator so this test relies on having a local sshd which is keyboard interactive only")
+    void dontTestKeyboardInteractive() throws Exception {
         BasicSSHUserPassword user = new BasicSSHUserPassword(CredentialsScope.SYSTEM,
                 null, "....",  // <---- put your username here
                 "....",  // <---- put your password here
@@ -86,13 +93,8 @@ public class JSchSSHPasswordAuthenticatorTest {
         assertThat(connector.getSession().isConnected(), is(true));
     }
 
-    @Before
-    public void setUp() throws Exception {
-        user =(StandardUsernamePasswordCredentials) Items.XSTREAM.fromXML(Items.XSTREAM.toXML(new BasicSSHUserPassword(CredentialsScope.SYSTEM, null, "foobar", "foomanchu", null)));
-    }
-
     @Test
-    public void testPassword() throws Exception {
+    void testPassword() throws Exception {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
@@ -120,7 +122,7 @@ public class JSchSSHPasswordAuthenticatorTest {
     }
 
     @Test
-    public void testFactory() throws Exception {
+    void testFactory() throws Exception {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
