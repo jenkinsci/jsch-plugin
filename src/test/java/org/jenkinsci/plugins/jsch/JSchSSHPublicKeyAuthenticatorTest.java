@@ -30,10 +30,9 @@ import com.cloudbees.plugins.credentials.CredentialsScope;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
 import java.security.Key;
@@ -46,39 +45,42 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-public class JSchSSHPublicKeyAuthenticatorTest {
+@WithJenkins
+class JSchSSHPublicKeyAuthenticatorTest {
 
     private KeyPair keyPair;
 
     private JSchConnector connector;
     private SSHUserPrivateKey user;
 
-    @Rule public JenkinsRule r = new JenkinsRule();
+    private JenkinsRule r;
 
-    @After
-    public void tearDown() throws Exception {
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) throws Exception {
+        r = rule;
+        KeyPairGenerator rsaGenerator = KeyPairGenerator.getInstance("RSA");
+        rsaGenerator.initialize(4096);
+        keyPair = rsaGenerator.genKeyPair();
+        BasicSSHUserPrivateKey.PrivateKeySource privateKeySource =
+            new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource(encodeKeyToPemForm(keyPair.getPrivate()));
+        user = new BasicSSHUserPrivateKey(CredentialsScope.SYSTEM, "foobar", "foobar", privateKeySource, null, null);
+    }
+
+    @AfterEach
+    void afterEach() {
         if (connector != null) {
             connector.close();
             connector = null;
         }
     }
 
-    @Before
-    public void setUp() throws Exception {
-        KeyPairGenerator rsaGenerator = KeyPairGenerator.getInstance("RSA");
-        rsaGenerator.initialize(4096);
-        keyPair = rsaGenerator.genKeyPair();
-        BasicSSHUserPrivateKey.PrivateKeySource privateKeySource =
-                new BasicSSHUserPrivateKey.DirectEntryPrivateKeySource(encodeKeyToPemForm(keyPair.getPrivate()));
-        user = new BasicSSHUserPrivateKey(CredentialsScope.SYSTEM, "foobar", "foobar", privateKeySource, null, null);
-    }
-
     @Test
-    public void testAuthenticate() throws Exception {
+    void testAuthenticate() throws Exception {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
@@ -107,7 +109,7 @@ public class JSchSSHPublicKeyAuthenticatorTest {
     }
 
     @Test
-    public void testFactory() throws Exception {
+    void testFactory() throws Exception {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(0);
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
